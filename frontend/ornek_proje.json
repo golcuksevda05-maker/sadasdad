@@ -1,0 +1,18 @@
+{
+  "ad": "Örnek: Fabrika Otomasyon Projesi",
+  "para_birimi": "TL",
+  "baz_maliyet": { "iyimser": 8500000, "en_olasi": 9500000, "kotumser": 11500000 },
+  "baz_sure": { "iyimser": 240, "en_olasi": 280, "kotumser": 340 },
+  "butce_hedefi": 11000000,
+  "sure_hedefi": 320,
+  "riskler": [
+    {"kod":"R-01","ad":"Tedarikçi teslimat gecikmesi","aciklama":"Kritik PLC donanımının ithalatında gecikme","kategori":"Tedarik","tur":"Tehdit","olasilik":0.45,"maliyet_etkisi":{"iyimser":150000,"en_olasi":400000,"kotumser":900000},"sure_etkisi":{"iyimser":10,"en_olasi":25,"kotumser":60},"strateji":"Azaltma","azaltma_sonrasi_olasilik":0.2,"azaltma_etkinligi":0.4,"onlem_maliyeti":80000,"sorumlu":"Satınalma","durum":"Açık"},
+    {"kod":"R-02","ad":"Döviz kuru artışı","aciklama":"İthal ekipmanda kur farkı","kategori":"Finansal","tur":"Tehdit","olasilik":0.6,"maliyet_etkisi":{"iyimser":200000,"en_olasi":700000,"kotumser":1800000},"sure_etkisi":{"iyimser":0,"en_olasi":0,"kotumser":0},"strateji":"Devretme","azaltma_sonrasi_olasilik":0.6,"azaltma_etkinligi":0.6,"onlem_maliyeti":180000,"sorumlu":"Finans","durum":"İzleniyor"},
+    {"kod":"R-03","ad":"Yazılım entegrasyon hataları","aciklama":"MES-ERP entegrasyonunda beklenmeyen uyumsuzluk","kategori":"Teknik","tur":"Tehdit","olasilik":0.35,"maliyet_etkisi":{"iyimser":100000,"en_olasi":300000,"kotumser":750000},"sure_etkisi":{"iyimser":5,"en_olasi":18,"kotumser":45},"strateji":"Azaltma","azaltma_sonrasi_olasilik":0.18,"azaltma_etkinligi":0.35,"onlem_maliyeti":60000,"sorumlu":"Yazılım Ekibi","durum":"Açık"},
+    {"kod":"R-04","ad":"Anahtar personel kaybı","aciklama":"Kıdemli otomasyon mühendisinin ayrılması","kategori":"İnsan Kaynağı","tur":"Tehdit","olasilik":0.2,"maliyet_etkisi":{"iyimser":80000,"en_olasi":220000,"kotumser":500000},"sure_etkisi":{"iyimser":7,"en_olasi":20,"kotumser":40},"strateji":"Azaltma","azaltma_sonrasi_olasilik":0.12,"azaltma_etkinligi":0.3,"onlem_maliyeti":45000,"sorumlu":"İK","durum":"Açık"},
+    {"kod":"R-05","ad":"Mevzuat/CE belgelendirme gecikmesi","aciklama":"Makine emniyeti sertifikasyon süreci","kategori":"Yasal/Mevzuat","tur":"Tehdit","olasilik":0.25,"maliyet_etkisi":{"iyimser":50000,"en_olasi":150000,"kotumser":400000},"sure_etkisi":{"iyimser":10,"en_olasi":30,"kotumser":70},"strateji":"Azaltma","azaltma_sonrasi_olasilik":0.15,"azaltma_etkinligi":0.25,"onlem_maliyeti":30000,"sorumlu":"Kalite","durum":"İzleniyor"},
+    {"kod":"R-06","ad":"Saha altyapısında beklenmeyen durum","aciklama":"Mevcut elektrik altyapısının yenilenmesi ihtiyacı","kategori":"Dış Çevre","tur":"Tehdit","olasilik":0.3,"maliyet_etkisi":{"iyimser":120000,"en_olasi":350000,"kotumser":1000000},"sure_etkisi":{"iyimser":5,"en_olasi":15,"kotumser":35},"strateji":"Kabul","azaltma_sonrasi_olasilik":null,"azaltma_etkinligi":0,"onlem_maliyeti":0,"sorumlu":"Proje Müdürü","durum":"Açık"},
+    {"kod":"R-07","ad":"Erken devreye alma primi","aciklama":"Planlanandan erken bitişte müşteri primi (fırsat)","kategori":"Proje Yönetimi","tur":"Fırsat","olasilik":0.25,"maliyet_etkisi":{"iyimser":150000,"en_olasi":300000,"kotumser":500000},"sure_etkisi":{"iyimser":5,"en_olasi":12,"kotumser":25},"strateji":"Fırsat - Yararlanma","azaltma_sonrasi_olasilik":0.4,"azaltma_etkinligi":0,"onlem_maliyeti":40000,"sorumlu":"Proje Müdürü","durum":"Açık"},
+    {"kod":"R-08","ad":"Kapsam genişlemesi","aciklama":"Müşteri talepleriyle ek istasyon eklenmesi","kategori":"Organizasyonel","tur":"Tehdit","olasilik":0.5,"maliyet_etkisi":{"iyimser":200000,"en_olasi":550000,"kotumser":1300000},"sure_etkisi":{"iyimser":10,"en_olasi":22,"kotumser":50},"strateji":"Azaltma","azaltma_sonrasi_olasilik":0.3,"azaltma_etkinligi":0.45,"onlem_maliyeti":70000,"sorumlu":"Proje Müdürü","durum":"Açık"}
+  ]
+}

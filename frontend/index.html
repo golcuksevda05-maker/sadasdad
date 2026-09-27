@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Olasılık ve Risk Analizi Programı</title>
+<link rel="stylesheet" href="/statik/stil.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header>
+  <div class="baslik">
+    <h1>📊 Olasılık ve Risk Analizi</h1>
+    <span class="alt">Proje riskleri · 5×5 matris · Monte Carlo simülasyonu</span>
+  </div>
+  <div class="ust-butonlar">
+    <select id="projeListesi" title="Kayıtlı projeler"><option value="">— Kayıtlı proje seç —</option></select>
+    <button id="btnYukle" class="ikincil">Yükle</button>
+    <button id="btnKaydet" class="ikincil">Kaydet</button>
+    <button id="btnOrnek" class="ikincil">Örnek veri</button>
+    <button id="btnCsv" class="ikincil">CSV indir</button>
+    <button id="btnAnaliz">▶ Analizi Çalıştır</button>
+  </div>
+</header>
+
+<nav class="sekmeler">
+  <button class="sekme etkin" data-hedef="sekme-proje">Proje</button>
+  <button class="sekme" data-hedef="sekme-riskler">Risk Kaydı</button>
+  <button class="sekme" data-hedef="sekme-matris">Risk Matrisi</button>
+  <button class="sekme" data-hedef="sekme-simulasyon">Simülasyon</button>
+  <button class="sekme" data-hedef="sekme-rapor">Rapor</button>
+</nav>
+
+<main>
+  <!-- PROJE -->
+  <section id="sekme-proje" class="panel etkin">
+    <div class="kart">
+      <h2>Proje Bilgileri</h2>
+      <div class="izgara">
+        <label>Proje adı <input id="projeAd" type="text" value="Yeni Proje" /></label>
+        <label>Para birimi <input id="paraBirimi" type="text" value="TL" /></label>
+        <label>Bütçe hedefi <input id="butceHedefi" type="number" min="0" value="0" /></label>
+        <label>Süre hedefi (gün) <input id="sureHedefi" type="number" min="0" value="0" /></label>
+      </div>
+      <h3>Baz Maliyet (risksiz, üç noktalı tahmin)</h3>
+      <div class="izgara uc">
+        <label>İyimser <input id="bmIyimser" type="number" min="0" value="0" /></label>
+        <label>En olası <input id="bmOlasi" type="number" min="0" value="0" /></label>
+        <label>Kötümser <input id="bmKotumser" type="number" min="0" value="0" /></label>
+      </div>
+      <h3>Baz Süre (gün)</h3>
+      <div class="izgara uc">
+        <label>İyimser <input id="bsIyimser" type="number" min="0" value="0" /></label>
+        <label>En olası <input id="bsOlasi" type="number" min="0" value="0" /></label>
+        <label>Kötümser <input id="bsKotumser" type="number" min="0" value="0" /></label>
+      </div>
+    </div>
+
+    <div class="kart">
+      <h2>Simülasyon Ayarları</h2>
+      <div class="izgara">
+        <label>Deneme sayısı <input id="denemeSayisi" type="number" min="100" max="500000" step="1000" value="10000" /></label>
+        <label>Rastgelelik tohumu <input id="tohum" type="number" value="42" /></label>
+        <label>Riskler arası korelasyon <input id="korelasyon" type="number" min="0" max="0.95" step="0.05" value="0" /></label>
+        <label>Güven düzeyi (RMD) <input id="guven" type="number" min="0.51" max="0.99" step="0.01" value="0.95" /></label>
+        <label class="onay"><input id="onlemler" type="checkbox" /> Önlemler uygulanmış senaryoyu hesapla</label>
+      </div>
+      <p class="ipucu">İpucu: Üç noktalı tahminler Beta-PERT dağılımı ile örneklenir; her risk Bernoulli denemesiyle gerçekleşir.</p>
+    </div>
+  </section>
+
+  <!-- RİSKLER -->
+  <section id="sekme-riskler" class="panel">
+    <div class="kart">
+      <div class="kart-baslik">
+        <h2>Risk Kaydı</h2>
+        <button id="btnRiskEkle">+ Risk Ekle</button>
+      </div>
+      <div class="tablo-sar">
+        <table id="riskTablosu">
+          <thead>
+            <tr>
+              <th>Kod</th><th>Risk Adı</th><th>Kategori</th><th>Tür</th>
+              <th>Olasılık</th>
+              <th colspan="3">Maliyet Etkisi (İyimser / En olası / Kötümser)</th>
+              <th colspan="3">Süre Etkisi (gün)</th>
+              <th>Strateji</th><th>Önlem Sonrası Ol.</th><th>Etki Azalması</th><th>Önlem Maliyeti</th><th>Sorumlu</th><th>Durum</th><th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="ipucu">Olasılık 0–1 arası (örn. 0,30 = %30). Fırsatlar maliyeti düşürür, tehditler artırır.</p>
+    </div>
+  </section>
+
+  <!-- MATRİS -->
+  <section id="sekme-matris" class="panel">
+    <div class="kart">
+      <h2>5×5 Olasılık–Etki Matrisi</h2>
+      <div id="matrisAlani" class="matris-alani"><p class="bos">Analizi çalıştırın.</p></div>
+      <div class="lejant">
+        <span><i style="background:#2e9e63"></i> Düşük (1–4)</span>
+        <span><i style="background:#e0a800"></i> Orta (5–9)</span>
+        <span><i style="background:#e2711d"></i> Yüksek (10–15)</span>
+        <span><i style="background:#c0392b"></i> Kritik (16–25)</span>
+      </div>
+    </div>
+    <div class="kart">
+      <h2>Önceliklendirilmiş Riskler</h2>
+      <div class="tablo-sar"><table id="siraliTablo"><thead><tr>
+        <th>Kod</th><th>Risk</th><th>Kategori</th><th>Ol.</th><th>Etki Sev.</th><th>Skor</th><th>Derece</th><th>BPD (EMV)</th><th>Önlem Net Faydası</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- SİMÜLASYON -->
+  <section id="sekme-simulasyon" class="panel">
+    <div id="kartlar" class="ozet-kartlar"></div>
+    <div class="grafik-izgara">
+      <div class="kart"><h2>Toplam Maliyet Dağılımı</h2><canvas id="grafHistogram"></canvas></div>
+      <div class="kart"><h2>Birikimli Olasılık (S Eğrisi)</h2><canvas id="grafSEgrisi"></canvas></div>
+      <div class="kart"><h2>Duyarlılık – Tornado</h2><canvas id="grafTornado"></canvas></div>
+      <div class="kart"><h2>Süre Dağılımı</h2><canvas id="grafSure"></canvas></div>
+    </div>
+  </section>
+
+  <!-- RAPOR -->
+  <section id="sekme-rapor" class="panel">
+    <div class="kart"><h2>Yönetici Özeti</h2><div id="raporAlani"><p class="bos">Analizi çalıştırın.</p></div></div>
+  </section>
+</main>
+
+<div id="bildirim" class="bildirim"></div>
+<script src="/statik/app.js"></script>
+</body>
+</html>
